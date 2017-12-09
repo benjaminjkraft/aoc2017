@@ -1,4 +1,7 @@
 #!/bin/sed -nf
+# NOTE: this is way too slow!  It would take at least 12 hours to run
+# on part 1, and thus I haven't checked if it's correct.
+#
 # Read everything into the buffer.
 :top
 N

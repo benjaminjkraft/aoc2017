@@ -4,10 +4,10 @@
 # a||||| b------ c d| (meaning a=5, b=-6, c=0, d=1)
 
 G
-# Swap lines (hold first) because that's how my brain works, and add a space
-# for consistency in hold-land
+# Swap lines (hold first) because that's how my brain works, and add the
+# special MAX register
 s/^\([^\n]*\)\n\([^\n]*\)$/\2\n\1/
-1 s/^/ /
+1 s/^/MAX /
 
 # Convert dec to inc
 s/dec -/inc /
@@ -127,6 +127,9 @@ q
 :true
 s/ \([a-z]*\)\([-+_| ]\+.*\)\n\1 inc \([-|]*\) if .*$/ \1\3\2/
 
+# Update max; there can be at most one register larger than it
+s/MAX\(|*\)\( .*[a-z]\)\(\1|\+\) /MAX\3\2\3 /
+
 :false
 s/\n.*$//
 s/+/|/g
@@ -136,10 +139,13 @@ s/_/-/g
 s/-|\||-//
 t cleanup
 
+l
 h
 
 # If at end, print.
 $ {
+    # Remove MAX; we'll deal with it later
+    s/MAX|* / /
     s/[a-z]//g
     /|/ {
         # We have a positive number.
@@ -165,7 +171,7 @@ $ {
 
     s/ //g
 
-    # Now convert to a number.
+    # Now convert to a number and print.
     s/$/)/
     :startprint
     s/||||||||||/+/g
@@ -183,7 +189,29 @@ $ {
     s/+/|/g
     /|/ b startprint
     s/)//
+    p
 
+    # Grab MAX and do the same with it.
+    x
     # And print!
+    s/ .*//
+    s/MAX//
+    s/$/)/
+    :startprint2
+    s/||||||||||/+/g
+    s/|||||||||/9/
+    s/||||||||/8/
+    s/|||||||/7/
+    s/||||||/6/
+    s/|||||/5/
+    s/||||/4/
+    s/|||/3/
+    s/||/2/
+    s/|/1/
+    s/\(+\|^\))/\10)/
+    s/\([0-9]\))/)\1/
+    s/+/|/g
+    /|/ b startprint2
+    s/)//
     p
 }
