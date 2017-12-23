@@ -1,10 +1,10 @@
 package main
 
 import (
-	"bufio"
+    "bufio"
     "bytes"
-	"fmt"
-	"os"
+    "fmt"
+    "os"
 )
 
 const (
@@ -54,13 +54,13 @@ func walkGrid(grid [][]byte) ([]byte, int) {
 
 func main() {
     grid := [][]byte{}
-	scanner := bufio.NewScanner(os.Stdin)
-	for scanner.Scan() {
-		grid = append(grid, []byte(scanner.Text()))
-	}
-	if err := scanner.Err(); err != nil {
-		fmt.Fprintln(os.Stderr, "reading standard input:", err)
-	}
+    scanner := bufio.NewScanner(os.Stdin)
+    for scanner.Scan() {
+        grid = append(grid, []byte(scanner.Text()))
+    }
+    if err := scanner.Err(); err != nil {
+        fmt.Fprintln(os.Stderr, "reading standard input:", err)
+    }
     letters, steps := walkGrid(grid)
     fmt.Println(string(letters))
     fmt.Println(steps)
