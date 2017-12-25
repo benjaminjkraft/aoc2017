@@ -1,6 +1,6 @@
 #!/bin/bash
 # Part 1
-cat input1 | \
+cat $1 | \
     # put first character at end too (for wrap-around)
     sed -E 's/^(.)(.*)$/\1\2\1/g' | \
     # Replace each character with two copies of itself, newline separated
@@ -11,7 +11,7 @@ cat input1 | \
     sed 's/.$/+/' | tr -d '\n' | sed 's/$/0\n/' | bc
 
 # Part 2
-cat input1 | \
+cat $1 | \
     # Split characters onto lines
     sed 's/./&\n/g' | \
     # Wrap to two columns, but remove the tabs
