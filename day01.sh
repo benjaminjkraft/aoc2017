@@ -19,4 +19,4 @@ cat input1 | \
     # Find lines with the same number twice
     grep -E '(.)\1' | \
     # Add both copies of each number
-sed 's/.$/+&+/' | tr -d '\n' | sed 's/$/0\n/' | bc
+    sed 's/.$/+&+/' | tr -d '\n' | sed 's/$/0\n/' | bc
